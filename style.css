@@ -1,0 +1,71 @@
+body{
+	background-color: whitesmoke;
+}
+
+#buttons{
+	display: grid;
+	margin: 0;
+	grid-template: repeat(5,75px)/repeat(4,75px);
+	align-items: center;
+	justify-items: center;
+
+}
+
+.button{
+	height: 65px;
+	width: 65px;
+	border: 1px solid black;
+	border-radius:10px;
+	margin: auto;
+	font-size: 24px;
+	color: white;
+	text-align: center;
+	vertical-align: middle;
+	line-height: 65px;
+	background-color: black;
+	/*box-shadow: -5px 5px 5px hsla(0, 0%, 0%, 0.5);*/
+}
+
+#display{
+	height: 75px;
+	display: grid;
+	margin: 5px 5px 10px 5px;
+	grid-template: 30px 45px / 100%;
+	/*border: 1px solid black;*/
+	border-radius: 10px;
+	background-color: black;
+}
+
+#current{
+	color: white;
+	font-size: 35px;
+	text-align: right;
+	/*vertical-align: middle;
+	line-height: 40px;*/
+	margin: 0px 10px 10px 10px;
+}
+#temporal{
+	color: white;
+	font-size: 20px;
+	text-align: right;
+	/*vertical-align: middle;
+	line-height: 35px;*/
+	margin: 10px 10px 5px 10px;
+}
+#body{
+	display: block;
+	width: 300px;
+	margin: 20vmin auto;
+	padding: 10px;
+	background-color: hsla(80, 61%, 50%, 1.0);
+	border-radius: 10px;
+	box-shadow: -30px 30px 10px hsla(0, 0%, 0%, 0.6);
+}
+
+#add{
+    grid-area: 4/4/6/5;
+    margin: auto;
+    height: 140px;
+    width: 65px;
+    line-height: 140px;
+}

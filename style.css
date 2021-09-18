@@ -11,7 +11,7 @@ body{
 
 }
 
-.button{
+.numbers, .operators, .specials{
 	height: 65px;
 	width: 65px;
 	border: 1px solid black;
@@ -36,7 +36,7 @@ body{
 	background-color: black;
 }
 
-#current{
+#temporal{
 	color: white;
 	font-size: 35px;
 	text-align: right;
@@ -44,7 +44,7 @@ body{
 	line-height: 40px;*/
 	margin: 0px 10px 10px 10px;
 }
-#temporal{
+#current{
 	color: white;
 	font-size: 20px;
 	text-align: right;

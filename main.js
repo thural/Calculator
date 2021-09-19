@@ -1,3 +1,4 @@
+//object to contain math functions
 const operators = {
     'add': function(a, b) {
         calculated = a + b
@@ -16,14 +17,13 @@ const operators = {
         else calculated = Math.sqrt(b)
     }
 };
-
-let forDisplay1 = [], forDisplay2 = [];
+//global variables
 let preOperand = [], postOperand = [];
 let calculated = 0;
 let currentOperator = '';
-
-const temporalDsp = document.querySelector('#temporal');
-const currentDsp = document.querySelector('#current');
+// display areas
+const dsp1 = document.querySelector('#temporal');
+const dsp2 = document.querySelector('#current');
 
 //operator button node list
 const oprBtns = Array.from(document.querySelectorAll('.operators'));
@@ -56,7 +56,7 @@ numBtns.forEach((number) => {
         logg()
     });
 });
-
+//click listener for clear button
 const clearBtn = document.getElementById('clear');
 clearBtn.addEventListener('click', function() {
     postOperand = [];
@@ -66,6 +66,7 @@ clearBtn.addEventListener('click', function() {
     logg()
 });
 
+//click listener for dot button
 const dotBtn = document.getElementById('dot');
 dotBtn.addEventListener('click', function() {
   if (currentOperator && postOperand.indexOf('.') == (-1) && postOperand[0]) {
@@ -74,14 +75,14 @@ dotBtn.addEventListener('click', function() {
     if (preOperand.indexOf('.') == (-1)) preOperand.push('.')
     }
 });
-
+//click listener for delete button
 const deleteBtn = document.getElementById('delete');
 deleteBtn.addEventListener('click', function() {
     if (!(postOperand[0]==undefined)) postOperand.pop()
     else preOperand.pop();
     logg()
 });
-
+//click listener for equals button
 const equalsBtn = document.getElementById('equals');
 equalsBtn.addEventListener('click', function() {
     if (currentOperator == '') {
@@ -98,11 +99,12 @@ equalsBtn.addEventListener('click', function() {
 
 
 
-///////////////////////
+/////////////////For Logging////////////////
 function logg() {
+    console.log('/////////////////////////')
     console.log('preOperand:', preOperand);
     console.log('postOperand:', postOperand);
     console.log('calculated:', calculated)
 };
 logg()
-/////////////////////////
+////////////////////////////////////////////

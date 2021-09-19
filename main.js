@@ -18,12 +18,13 @@ const operators = {
     }
 };
 //global variables
+let currentOperatorContent = '', currentOperator = '';
 let preOperand = [], postOperand = [];
 let calculated = 0;
-let currentOperator = '';
+
 // display areas
-const dsp1 = document.querySelector('#temporal');
-const dsp2 = document.querySelector('#current');
+const dsp1 = document.querySelector('#current');
+const dsp2 = document.querySelector('#temporal');
 
 //operator button node list
 const oprBtns = Array.from(document.querySelectorAll('.operators'));
@@ -35,11 +36,15 @@ oprBtns.forEach((operator) => {
             !(currentOperator=='')) {
             operators[currentOperator](Number(preOperand.join('')),
                 Number(postOperand.join('')));
+            renderDsp1(currentOperatorContent);
             preOperand = String(calculated).split('');
             postOperand = []
             currentOperator = '';
         };
-        if (!(preOperand[0]==undefined)) currentOperator = operator.id;
+        if (!(preOperand[0]==undefined)) {
+          currentOperator = operator.id;
+          currentOperatorContent = operator.textContent
+        };
         logg()
     });
 });
@@ -62,6 +67,7 @@ clearBtn.addEventListener('click', function() {
     postOperand = [];
     preOperand = [];
     calculated = 0;
+    currentOperatorContent = '';
     currentOperator = '';
     logg()
 });
@@ -90,6 +96,7 @@ equalsBtn.addEventListener('click', function() {
     } else {
         operators[currentOperator](Number(preOperand.join('')),
             Number(postOperand.join('')));
+        renderDsp1(currentOperatorContent);
         postOperand = [];
         preOperand = [];
         currentOperator = '';
@@ -97,8 +104,21 @@ equalsBtn.addEventListener('click', function() {
     }
 })
 
-
-
+//updates content of the smaller display
+const renderDsp1 = function(operatorSymbol) {
+  if (!(dsp1.textContent=='')) preOperand = [];
+    let preDisplay = (dsp1.textContent + preOperand.join('') +
+        operatorSymbol + postOperand.join('')).split('');
+    if (preDisplay.length < 24) {
+        dsp1.textContent = preDisplay.join('');
+    } else {
+        while (preDisplay.length > 23) {
+            preDisplay.shift()
+            console.log('preDisplay:', preDisplay)
+        };
+        dsp1.textContent = preDisplay.join('');
+    }
+};
 /////////////////For Logging////////////////
 function logg() {
     console.log('/////////////////////////')

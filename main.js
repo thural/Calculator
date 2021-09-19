@@ -64,21 +64,24 @@ numBtns.forEach((number) => {
 //click listener for clear button
 const clearBtn = document.getElementById('clear');
 clearBtn.addEventListener('click', function() {
+    dsp1.textContent = '';
+    dsp2.textContent = '0';
     postOperand = [];
     preOperand = [];
     calculated = 0;
     currentOperatorContent = '';
     currentOperator = '';
+    renderDsp1('')
     logg()
 });
 
 //click listener for dot button
 const dotBtn = document.getElementById('dot');
 dotBtn.addEventListener('click', function() {
-  if (currentOperator && postOperand.indexOf('.') == (-1) && postOperand[0]) {
+  if (currentOperator && postOperand.indexOf('.') == (-1) && !(postOperand[0]==undefined)) {
     postOperand.push('.')
   } else {
-    if (preOperand.indexOf('.') == (-1)) preOperand.push('.')
+    if (preOperand.indexOf('.') == (-1)&&!(preOperand[0]==undefined)) preOperand.push('.')
     }
 });
 //click listener for delete button
@@ -96,7 +99,7 @@ equalsBtn.addEventListener('click', function() {
     } else {
         operators[currentOperator](Number(preOperand.join('')),
             Number(postOperand.join('')));
-        renderDsp1(currentOperatorContent);
+        (postOperand[0]==undefined) ? renderDsp1('') : renderDsp1(currentOperatorContent);
         postOperand = [];
         preOperand = [];
         currentOperator = '';
@@ -109,10 +112,10 @@ const renderDsp1 = function(operatorSymbol) {
   if (!(dsp1.textContent=='')) preOperand = [];
     let preDisplay = (dsp1.textContent + preOperand.join('') +
         operatorSymbol + postOperand.join('')).split('');
-    if (preDisplay.length < 24) {
+    if (preDisplay.length < 25) {
         dsp1.textContent = preDisplay.join('');
     } else {
-        while (preDisplay.length > 23) {
+        while (preDisplay.length > 24) {
             preDisplay.shift()
             console.log('preDisplay:', preDisplay)
         };

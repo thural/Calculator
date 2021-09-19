@@ -21,7 +21,6 @@ let forDisplay1 = [], forDisplay2 = [];
 let preOperand = [], postOperand = [];
 let calculated = 0;
 let currentOperator = '';
-let equalsIs = false;
 
 const temporalDsp = document.querySelector('#temporal');
 const currentDsp = document.querySelector('#current');
@@ -32,14 +31,15 @@ const oprBtns = Array.from(document.querySelectorAll('.operators'));
 oprBtns.forEach((operator) => {
     operator.addEventListener('click', () => {
 
-        if (!(postOperand==undefined)&&!(preOperand==undefined)&&
+        if (!(postOperand[0]==undefined)&&!(preOperand[0]==undefined)&&
             !(currentOperator=='')) {
             operators[currentOperator](Number(preOperand.join('')),
                 Number(postOperand.join('')));
             preOperand = String(calculated).split('');
             postOperand = []
+            currentOperator = '';
         };
-        if (preOperand) currentOperator = operator.id;
+        if (!(preOperand[0]==undefined)) currentOperator = operator.id;
         logg()
     });
 });
@@ -50,9 +50,7 @@ const numBtns = Array.from(document.querySelectorAll('.numbers'));
 numBtns.forEach((number) => {
     number.addEventListener('click', () => {
         if (!currentOperator) {
-            if (equalsIs) preOperand = [];
             preOperand.push(number.textContent);
-            equalsIs = false
         } else{
             postOperand.push(number.textContent)};
         logg()
@@ -79,12 +77,8 @@ dotBtn.addEventListener('click', function() {
 
 const deleteBtn = document.getElementById('delete');
 deleteBtn.addEventListener('click', function() {
-    if (postOperand[0]) {
-        postOperand.pop()
-    } else {
-        if (equalsIs) preOperand = [];
-        else preOperand.pop();
-    };
+    if (!(postOperand[0]==undefined)) postOperand.pop()
+    else preOperand.pop();
     logg()
 });
 
@@ -96,9 +90,8 @@ equalsBtn.addEventListener('click', function() {
         operators[currentOperator](Number(preOperand.join('')),
             Number(postOperand.join('')));
         postOperand = [];
-        preOperand = String(calculated).split('');
+        preOperand = [];
         currentOperator = '';
-        equalsIs = true;
         logg()
     }
 })

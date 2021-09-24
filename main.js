@@ -25,45 +25,26 @@ const operators = {
         else calculated = Math.sqrt(b)
     }
 };
-// display areas
-const dsp1 = document.querySelector('#current');
-const dsp2 = document.querySelector('#temporal');
-//clear display1 if any button is pressed after equals button clicked
-const allBtns = document.querySelector('#buttons');
-allBtns.addEventListener('mousedown', () => {
-   event.target.classList.add('clicked');
-  if (equalIsOn&&!(event.target.id=='equals')) dsp1.textContent = '', dsp2.textContent = '0',equalIsOn = false
-});
-allBtns.addEventListener('mouseup', () => event.target.classList.remove('clicked'));
-
-//operator buttons node list
-const oprBtns = Array.from(document.querySelectorAll('.operators'));
-//click event listeners for operator buttons
-oprBtns.forEach((operator) => {
-    operator.addEventListener('click', () => {
-        if (postOperand[0] == undefined && !(preOperand[0]==undefined)) renderDsp2(operator.textContent);
-        if (!(postOperand[0] == undefined) && !(preOperand[0] == undefined) &&
-            !(currentOperator == '')) {
-            operators[currentOperator](Number(preOperand.join('')),
-                Number(postOperand.join('')));
-            renderDsp1(currentOperatorContent);
-            preOperand = String(calculated).split('');
-            postOperand = [];
-            renderDsp2(operator.textContent);
-            currentOperator = '';
-        };
-        if (!(preOperand[0] == undefined)) {
-            currentOperator = operator.id;
-            currentOperatorContent = operator.textContent
-        };
-        logg()
-    });
-});
-//number button node list
-const numBtns = Array.from(document.querySelectorAll('.numbers'));
-//click event listeners for number buttons
-numBtns.forEach((number) => {
-    number.addEventListener('click', () => {
+//function to calculate result after all elements are present
+const calculate = function(operator) {
+    if (postOperand[0] == undefined && !(preOperand[0] == undefined)) renderDsp2(operator.textContent);
+    if (!(postOperand[0] == undefined) && !(preOperand[0] == undefined) &&
+        !(currentOperator == '')) {
+        operators[currentOperator](Number(preOperand.join('')), Number(postOperand.join('')));
+        renderDsp1(currentOperatorContent);
+        preOperand = String(calculated).split('');
+        postOperand = [];
+        renderDsp2(operator.textContent);
+        currentOperator = '';
+    };
+    if (!(preOperand[0] == undefined)) {
+        currentOperator = operator.id;
+        currentOperatorContent = operator.textContent
+    };
+    logg()
+};
+//function to insert selected number
+const insert = function(number){
         if (!currentOperator) {
             if(preOperand.length<14) preOperand.push(number.textContent);
         } else {
@@ -71,24 +52,10 @@ numBtns.forEach((number) => {
         };
         renderDsp2();
         logg()
-    });
-});
-//click listener for clear button
-const clearBtn = document.getElementById('clear');
-clearBtn.addEventListener('click', function() {
-    dsp1.textContent = '';
-    dsp2.textContent = '';
-    postOperand = [];
-    preOperand = [];
-    calculated = 0;
-    currentOperatorContent = '';
-    currentOperator = '';
-    renderDsp1('')
-    logg()
-});
-//click listener for dot button
-const dotBtn = document.getElementById('dot');
-dotBtn.addEventListener('click', function() {
+    };
+//function for '.' button
+const insertDot = function() {
+  console.log('DOT');
     if (currentOperator && postOperand.indexOf('.') == (-1) && !(postOperand[0] == undefined)) {
         postOperand.push('.');
         renderDsp2()
@@ -96,20 +63,18 @@ dotBtn.addEventListener('click', function() {
         if (preOperand.indexOf('.') == (-1) && !(preOperand[0] == undefined)) preOperand.push('.');
         renderDsp2()
     }
-});
-//click listener for delete button
-const deleteBtn = document.getElementById('delete');
-deleteBtn.addEventListener('click', function() {
+};
+//function for 'CE' button
+const removeItem = function() {
     if (!(postOperand[0] == undefined)) postOperand.pop()
-      else if (currentOperatorContent) currentOperator = '', currentOperatorContent = ''
-        else preOperand.pop();
+    else if (currentOperatorContent) currentOperator = '', currentOperatorContent = ''
+    else preOperand.pop();
     renderDsp2();
-    if(preOperand[0]==undefined) dsp2.textContent = '0';
+    if (preOperand[0] == undefined) dsp2.textContent = '0';
     logg()
-});
-//click listener for equals button
-const equalsBtn = document.getElementById('equals');
-equalsBtn.addEventListener('click', function() {
+};
+//function for '='' button
+const equalize = function() {
     if (!(currentOperator == '') && !(postOperand[0]==undefined)) {
         operators[currentOperator](Number(preOperand.join('')),
             Number(postOperand.join('')));
@@ -124,9 +89,84 @@ equalsBtn.addEventListener('click', function() {
         equalIsOn = true;
         logg();
     }
+};
+//function for clear button
+const clearAll = function() {
+    dsp1.textContent = '';
+    dsp2.textContent = '';
+    postOperand = [];
+    preOperand = [];
+    calculated = 0;
+    currentOperatorContent = '';
+    currentOperator = '';
+    renderDsp1('')
+    logg()
+}
+// display areas
+const dsp1 = document.querySelector('#current');
+const dsp2 = document.querySelector('#temporal');
+
+//clear display1 if any button is pressed after equals button clicked
+const allBtns = document.querySelector('#buttons');
+allBtns.addEventListener('mousedown', () => {
+   event.target.classList.add('clicked');
+  if (equalIsOn&&!(event.target.id=='equals')) {
+    dsp1.textContent = '', dsp2.textContent = '0',equalIsOn = false
+  }
 });
+allBtns.addEventListener('mouseup', () => event.target.classList.remove('clicked'));
+
+//listener for key events
+document.addEventListener('keydown', (event) => {
+    const selectedKey = allBtns.querySelector(`div[data-key='${event.key}']`);
+    if (!selectedKey) return;
+    if (equalIsOn&&!(selectedKey.id=='equals')) {
+    dsp1.textContent = '', dsp2.textContent = '0',equalIsOn = false
+    };
+    if (selectedKey.className == 'operators') calculate(selectedKey)
+    else if (selectedKey.className == 'numbers') insert(selectedKey)
+    else if (selectedKey.className == 'specials') {
+        switch (selectedKey.id) {
+            case 'dot':
+                insertDot();
+                break;
+            case 'delete':
+                removeItem();
+                break;
+            case 'equals':
+                equalize();
+                break;
+            case 'clear':
+                clearAll();
+                break;
+        }
+    }
+});
+//click listeners for operator buttons node list
+const oprBtns = Array.from(document.querySelectorAll('.operators'));
+oprBtns.forEach((operator) => {
+    operator.addEventListener('click', () => calculate(operator));
+});
+//click listeners for number buttons node list
+const numBtns = Array.from(document.querySelectorAll('.numbers'));
+numBtns.forEach((number) => {
+    number.addEventListener('click', () => insert(number));
+});
+//click listener for clear button
+const clearBtn = document.getElementById('clear');
+clearBtn.addEventListener('click', () => clearAll());
+//click listener for dot button
+const dotBtn = document.getElementById('dot');
+dotBtn.addEventListener('click', () => insertDot());
+//click listener for delete button
+const deleteBtn = document.getElementById('delete');
+deleteBtn.addEventListener('click', () => removeItem());
+//click listener for equals button
+const equalsBtn = document.getElementById('equals');
+equalsBtn.addEventListener('click', () => equalize());
+
 //updates content of the smaller display
-const renderDsp1 = function(operatorSymbol) {
+function renderDsp1 (operatorSymbol) {
     if (!(dsp1.textContent == '')) preOperand = [];
     preDisplay = (dsp1.textContent + preOperand.join('') +
       operatorSymbol + postOperand.join('')).split('');
@@ -140,7 +180,7 @@ const renderDsp1 = function(operatorSymbol) {
     }
 };
 //updates content of the bigger display
-const renderDsp2 = function(operatorSymbol) {
+function renderDsp2 (operatorSymbol) {
     if (!operatorSymbol) operatorSymbol = currentOperatorContent;
         preDisplay = (preOperand.join('') +
           operatorSymbol + postOperand.join('')).split('');
@@ -152,7 +192,6 @@ const renderDsp2 = function(operatorSymbol) {
         };
         dsp2.textContent = preDisplay.join('')
     }
-
 };
 /////////////////For Logging////////////////
 function logg() {

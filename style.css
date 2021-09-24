@@ -28,7 +28,8 @@ body{
 
 .clicked{
 	font-size: 23px;
-	box-shadow: inset 1px -1px 5px hsl(0, 0%, 50%);
+	border: 1px solid hsl(120, 0%, 30%);
+	box-shadow: inset 0px 0px 30px hsl(120, 0%, 30%);
 }
 
 #display{

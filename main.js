@@ -22,8 +22,8 @@ let currentOperatorContent = '',
     currentOperator = '';
 let preOperand = [],
     postOperand = [];
+let preDisplay = [];
 let calculated = 0;
-
 // display areas
 const dsp1 = document.querySelector('#current');
 const dsp2 = document.querySelector('#temporal');
@@ -113,7 +113,7 @@ equalsBtn.addEventListener('click', function() {
             operators[currentOperator](Number(preOperand.join('')),
                 Number(postOperand.join('')));
             (postOperand[0] == undefined) ? renderDsp1(''): renderDsp1(currentOperatorContent);
-            let preDisplay = String(calculated).split('');
+            preDisplay = String(calculated).split('');
             if (preDisplay.length < 14) {
                 dsp2.textContent = '= ' + preDisplay.join('');
             } else {
@@ -124,7 +124,6 @@ equalsBtn.addEventListener('click', function() {
             };
             preOperand = [];
             postOperand = [];
-
             currentOperatorContent = '';
             currentOperator = '';
             logg();
@@ -136,7 +135,7 @@ equalsBtn.addEventListener('click', function() {
 const renderDsp1 = function(operatorSymbol) {
     //if (preOperand[0]==undefined) dsp1.textContent='';
     if (!(dsp1.textContent == '')) preOperand = [];
-    let preDisplay = (dsp1.textContent + preOperand.join('') +
+        preDisplay = (dsp1.textContent + preOperand.join('') +
         operatorSymbol + postOperand.join('')).split('');
     if (preDisplay.length < 25) {
         dsp1.textContent = preDisplay.join('');
@@ -150,19 +149,11 @@ const renderDsp1 = function(operatorSymbol) {
 //updates content of the bigger display
 const renderDsp2 = function(operatorSymbol) {
     if (operatorSymbol) {
-        let preDisplay = (preOperand.join('') + operatorSymbol + postOperand.join('')).split('');
-        if (preDisplay.length < 14) {
-            dsp2.textContent = preDisplay.join('');
-        } else {
-            while (preDisplay.length > 12) {
-                preDisplay.shift();
-            };
-            dsp2.textContent = preDisplay.join('')
-        }
-
+        preDisplay = (preOperand.join('') + operatorSymbol + postOperand.join('')).split('');
     } else {
         preDisplay = (preOperand.join('') + currentOperatorContent + postOperand.join('')).split('');
-        if (preDisplay.length < 14) {
+    };
+    if (preDisplay.length < 14) {
             dsp2.textContent = preDisplay.join('');
         } else {
             while (preDisplay.length > 12) {
@@ -170,7 +161,6 @@ const renderDsp2 = function(operatorSymbol) {
             };
             dsp2.textContent = preDisplay.join('')
         }
-    };
 
 };
 /////////////////For Logging////////////////

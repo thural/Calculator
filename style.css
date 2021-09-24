@@ -23,7 +23,12 @@ body{
 	vertical-align: middle;
 	line-height: 65px;
 	background-color: black;
-	/*box-shadow: -5px 5px 5px hsla(0, 0%, 0%, 0.5);*/
+	
+}
+
+.clicked{
+	font-size: 23px;
+	box-shadow: inset 1px -1px 5px hsl(0, 0%, 50%);
 }
 
 #display{
@@ -68,4 +73,17 @@ body{
     height: 140px;
     width: 65px;
     line-height: 140px;
+}
+
+.unselectable {
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+
+   /*
+     Introduced in IE 10.
+     See http://ie.microsoft.com/testdrive/HTML5/msUserSelect/
+   */
+   -ms-user-select: none;
+   user-select: none;
 }

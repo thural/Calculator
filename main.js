@@ -73,7 +73,7 @@ const removeItem = function() {
     if (preOperand[0] == undefined) dsp2.textContent = '0';
     logg()
 };
-//function for '='' button
+//function for '= button
 const equalize = function() {
     if (!(currentOperator == '') && !(postOperand[0]==undefined)) {
         operators[currentOperator](Number(preOperand.join('')),
@@ -108,9 +108,9 @@ const dsp2 = document.querySelector('#temporal');
 
 //clear display1 if any button is pressed after equals button clicked
 const allBtns = document.querySelector('#buttons');
-allBtns.addEventListener('mousedown', () => {
-   event.target.classList.add('clicked');
-  if (equalIsOn&&!(event.target.id=='equals')) {
+allBtns.addEventListener('mousedown', (event) => {
+   if (!(event.target.id=='buttons')) event.target.classList.add('clicked');
+  if (equalIsOn && !(event.target.id=='equals')) {
     dsp1.textContent = '', dsp2.textContent = '0',equalIsOn = false
   }
 });
@@ -182,8 +182,7 @@ function renderDsp1 (operatorSymbol) {
 //updates content of the bigger display
 function renderDsp2 (operatorSymbol) {
     if (!operatorSymbol) operatorSymbol = currentOperatorContent;
-        preDisplay = (preOperand.join('') +
-          operatorSymbol + postOperand.join('')).split('');
+    preDisplay = (preOperand.join('') + operatorSymbol + postOperand.join('')).split('');
     if (preDisplay.length < 15) {
         dsp2.textContent = preDisplay.join('');
     } else {
@@ -193,6 +192,19 @@ function renderDsp2 (operatorSymbol) {
         dsp2.textContent = preDisplay.join('')
     }
 };
+//event listeners to change social media icons on mouse events
+const social = document.querySelector('social');
+social.addEventListener('mouseover', ()=>{ 
+    if (!event.target.id) {return};
+selectedIcon = document.querySelector(`img[id = '${event.target.id}']`);
+selectedIcon.src = `images/${event.target.id}_icon.png`;
+});
+
+social.addEventListener('mouseout', ()=>{ 
+    if (!event.target.id) {return};
+selectedIcon = document.querySelector(`img[id = '${event.target.id}']`);
+selectedIcon.src = `images/black_${event.target.id}_icon.png`;
+});
 /////////////////For Logging////////////////
 function logg() {
     console.log('/////////////////////////')

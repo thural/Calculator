@@ -1,4 +1,6 @@
 body{
+	display: grid;
+	grid-template: 3fr 1fr/ 100%;
 	background-color: whitesmoke;
 }
 
@@ -61,11 +63,11 @@ body{
 #body{
 	display: block;
 	width: 300px;
-	margin: 20vmin auto;
+	margin: 4rem auto;
 	padding: 11px;
 	background-color: hsla(80, 61%, 50%, 1.0);
 	border-radius: 10px;
-	box-shadow: -30px 30px 10px hsla(0, 0%, 0%, 0.6);
+	box-shadow: -30px 30px 15px hsla(0, 0%, 0%, 0.5);
 }
 
 #add{
@@ -87,4 +89,31 @@ body{
    */
    -ms-user-select: none;
    user-select: none;
+}
+
+footer{
+  display: grid;
+  grid-template: 100% / 1fr 1fr 1fr;
+  margin: 4rem auto;
+  justify-content: space-evenly;
+}
+
+footer h3 {	
+    font-family: open-sans;
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+	vertical-align: middle;
+}
+
+
+img{
+	background: transparent;
+	margin: 6px;
+}
+
+social{
+display: flex;
+justify-content: center;
+align-items: center;
 }

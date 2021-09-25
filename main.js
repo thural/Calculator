@@ -1,9 +1,9 @@
 //global variables
-let currentOperatorContent = '',
-    currentOperator = '';
-let preOperand = [],
-    postOperand = [];
-let preDisplay = [];
+let oprContent = '',
+    opr = '';
+let num1 = [],
+    num2 = [];
+let preRender = [];
 let calculated = 0;
 let equalIsOn = false;
 //object to contain math functions
@@ -24,121 +24,119 @@ const operatorFunctions = {
         calculated = a % b
     }
 };
-
 // display areas
-const dsp1 = document.querySelector('#current');
-const dsp2 = document.querySelector('#temporal');
+const disp1 = document.querySelector('#current');
+const disp2 = document.querySelector('#temporal');
 
 //updates content of the smaller display
-function renderDsp1 (operatorSymbol) {
-    if (!(dsp1.textContent == '')) preOperand = [];
-    preDisplay = (dsp1.textContent + preOperand.join('') +
-      operatorSymbol + postOperand.join('')).split('');
-    if (preDisplay.length < 25) {
-        dsp1.textContent = preDisplay.join('');
+function render1(oprSymbol) {
+    if (!(disp1.textContent == '')) num1 = [];
+    preRender = (disp1.textContent + num1.join('') +
+        oprSymbol + num2.join('')).split('');
+    if (preRender.length < 25) {
+        disp1.textContent = preRender.join('');
     } else {
-        while (preDisplay.length > 24) {
-            preDisplay.shift()
+        while (preRender.length > 24) {
+            preRender.shift()
         };
-        dsp1.textContent = preDisplay.join('');
+        disp1.textContent = preRender.join('');
     }
 };
 //updates content of the bigger display
-function renderDsp2 (operatorSymbol) {
-    if (!operatorSymbol) operatorSymbol = currentOperatorContent;
-    preDisplay = (preOperand.join('') + operatorSymbol + postOperand.join('')).split('');
-    if (preDisplay.length < 15) {
-        dsp2.textContent = preDisplay.join('');
+function render2(oprSymbol) {
+    if (!oprSymbol) oprSymbol = oprContent;
+    preRender = (num1.join('') + oprSymbol + num2.join('')).split('');
+    if (preRender.length < 15) {
+        disp2.textContent = preRender.join('');
     } else {
-        while (preDisplay.length > 14) {
-            preDisplay.shift();
+        while (preRender.length > 14) {
+            preRender.shift();
         };
-        dsp2.textContent = preDisplay.join('')
+        disp2.textContent = preRender.join('')
     }
 };
-
 //function to calculate result after all elements are present
 const calculate = function(operator) {
-    if (postOperand[0] == undefined && !(preOperand[0] == undefined)) renderDsp2(operator.textContent);
-    if (!(postOperand[0] == undefined) && !(preOperand[0] == undefined) &&
-        !(currentOperator == '')) {
-        operatorFunctions[currentOperator](Number(preOperand.join('')), Number(postOperand.join('')));
-        renderDsp1(currentOperatorContent);
-        preOperand = String(calculated).split('');
-        postOperand = [];
-        renderDsp2(operator.textContent);
-        currentOperator = '';
+    if (num2[0] == null && !(num1[0] == null)) render2(operator.textContent);
+    if (!(num2[0] == null) && !(num1[0] == null) &&
+        !(opr == '')) {
+        operatorFunctions[opr](Number(num1.join('')), Number(num2.join('')));
+        render1(oprContent);
+        num1 = String(calculated).split('');
+        num2 = [];
+        render2(operator.textContent);
+        opr = '';
     };
-    if (!(preOperand[0] == undefined)) {
-        currentOperator = operator.id;
-        currentOperatorContent = operator.textContent
+    if (!(num1[0] == null)) {
+        opr = operator.id;
+        oprContent = operator.textContent
     };
     logg()
 };
 //function to insert selected number
-const insert = function(number){
-        if (!currentOperator) {
-            if(preOperand.length<14) preOperand.push(number.textContent);
-        } else {
-            if(postOperand.length<14) postOperand.push(number.textContent)
-        };
-        renderDsp2();
-        logg()
+const insert = function(number) {
+    if (!opr) {
+        if (num1.length < 14) num1.push(number.textContent);
+    } else {
+        if (num2.length < 14) num2.push(number.textContent)
     };
+    render2();
+    logg()
+};
 //Object to cotain functions for special buttons
 const functions = {
     'dot': function() {
-        if (currentOperator && postOperand.indexOf('.') == (-1) && !(postOperand[0] == undefined)) {
-            postOperand.push('.');
-            renderDsp2()
+        if (opr && num2.indexOf('.') == (-1) && !(num2[0] == null)) {
+            num2.push('.');
+            render2()
         } else {
-            if (preOperand.indexOf('.') == (-1) && !(preOperand[0] == undefined)) preOperand.push('.');
-            renderDsp2()
+            if (num1.indexOf('.') == (-1) && !(num1[0] == null)) num1.push('.');
+            render2()
         }
     },
     'backspace': function() {
-        if (!(postOperand[0] == undefined)) postOperand.pop()
-        else if (currentOperatorContent) currentOperator = '', currentOperatorContent = ''
-        else preOperand.pop();
-        renderDsp2();
-        if (preOperand[0] == undefined) dsp2.textContent = '0';
+        if (!(num2[0] == null)) num2.pop()
+        else if (oprContent) opr = '', oprContent = ''
+        else num1.pop();
+        render2();
+        if (num1[0] == null) disp2.textContent = '0';
         logg()
     },
     'equals': function() {
-        if (!(currentOperator == '') && !(postOperand[0] == undefined)) {
-            operatorFunctions[currentOperator](Number(preOperand.join('')),
-                Number(postOperand.join('')));
-            (postOperand[0] == undefined) ? renderDsp1(''): renderDsp1(currentOperatorContent);
-            preDisplay = String(calculated).split('');
-            if (preDisplay.length < 14) dsp2.textContent = '= ' + preDisplay.join('')
-            else dsp2.textContent = '= ' + calculated.toExponential(6);
-            preOperand = [];
-            postOperand = [];
-            currentOperatorContent = '';
-            currentOperator = '';
+        if (!(opr == '') && !(num2[0] == null)) {
+            operatorFunctions[opr](Number(num1.join('')),
+                Number(num2.join('')));
+            (num2[0] == null) ? render1(''): render1(oprContent);
+            preRender = String(calculated).split('');
+            if (preRender.length < 14) disp2.textContent = '= ' + preRender.join('')
+            else disp2.textContent = '= ' + calculated.toExponential(6);
+            num1 = [];
+            num2 = [];
+            oprContent = '';
+            opr = '';
             equalIsOn = true;
             logg();
         }
     },
     'clear': function() {
-        dsp1.textContent = '';
-        dsp2.textContent = '';
-        postOperand = [];
-        preOperand = [];
+        disp1.textContent = '';
+        disp2.textContent = '';
+        num2 = [];
+        num1 = [];
         calculated = 0;
-        currentOperatorContent = '';
-        currentOperator = '';
-        renderDsp1('')
+        oprContent = '';
+        opr = '';
+        render1('')
         logg()
     }
 };
 //clear display1 if any button is pressed after equals button clicked
 const allBtns = document.querySelector('#buttons');
 allBtns.addEventListener('mousedown', (event) => {
-   if (!(event.target.id=='buttons')) event.target.classList.add('clicked');
-  if (equalIsOn && !(event.target.id=='equals')) {
-    dsp1.textContent = '', dsp2.textContent = '0',equalIsOn = false
-  }
+    if (!(event.target.id == 'buttons')) event.target.classList.add('clicked');
+    if (equalIsOn && !(event.target.id == 'equals')) {
+        disp1.textContent = '', disp2.textContent = '0', equalIsOn = false
+    }
 });
 allBtns.addEventListener('mouseup', () => event.target.classList.remove('clicked'));
 
@@ -146,13 +144,13 @@ allBtns.addEventListener('mouseup', () => event.target.classList.remove('clicked
 document.addEventListener('keydown', (event) => {
     const selectedKey = allBtns.querySelector(`div[data-key='${event.key}']`);
     if (!selectedKey) return;
-    if (equalIsOn&&!(selectedKey.id=='equals')) {
-    dsp1.textContent = '', dsp2.textContent = '0',equalIsOn = false
+    if (equalIsOn && !(selectedKey.id == 'equals')) {
+        disp1.textContent = '', disp2.textContent = '0', equalIsOn = false
     };
     if (selectedKey.className == 'operators') calculate(selectedKey)
     else if (selectedKey.className == 'numbers') insert(selectedKey)
     else if (selectedKey.className == 'specials') {
-    functions[selectedKey.id]();    
+        functions[selectedKey.id]();
     }
 });
 //click listeners for operator buttons node list
@@ -180,23 +178,26 @@ equalsBtn.addEventListener('click', () => functions['equals']());
 
 //event listeners to change social media icons on mouse events
 const social = document.querySelector('social');
-social.addEventListener('mouseover', ()=>{ 
-    if (!event.target.id) {return};
-selectedIcon = document.querySelector(`img[id = '${event.target.id}']`);
-selectedIcon.src = `images/${event.target.id}_icon.png`;
+social.addEventListener('mouseover', () => {
+    if (!event.target.id) {
+        return
+    };
+    selectedIcon = document.querySelector(`img[id = '${event.target.id}']`);
+    selectedIcon.src = `images/${event.target.id}_icon.png`;
 });
-
-social.addEventListener('mouseout', ()=>{ 
-    if (!event.target.id) {return};
-selectedIcon = document.querySelector(`img[id = '${event.target.id}']`);
-selectedIcon.src = `images/black_${event.target.id}_icon.png`;
+social.addEventListener('mouseout', () => {
+    if (!event.target.id) {
+        return
+    };
+    selectedIcon = document.querySelector(`img[id = '${event.target.id}']`);
+    selectedIcon.src = `images/black_${event.target.id}_icon.png`;
 });
 /////////////////For Logging////////////////
 function logg() {
     console.log('/////////////////////////')
-    console.log('preOperand:', preOperand);
-    console.log('postOperand:', postOperand);
+    console.log('preOperand:', num1);
+    console.log('postOperand:', num2);
     console.log('calculated:', calculated)
 };
 logg()
-////////////////////////////////////////////
+    ////////////////////////////////////////////

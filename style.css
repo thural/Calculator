@@ -8,7 +8,7 @@ body{
 #body{
 	display: block;
 	width: 300px;
-	margin: 5rem auto;
+	margin: 8rem auto;
 	padding: 11px;
 	background-color: hsl(90, 100%,65%);
 	border-radius: 10px;
@@ -22,7 +22,7 @@ body{
 	grid-template: 30px 45px / 100%;
 	/*border: 1px solid black;*/
 	border-radius: 10px;
-	background-color: black;
+	background-color: hsl(0, 0%, 3%);
 }
 
 #temporal{
@@ -63,7 +63,7 @@ body{
 	text-align: center;
 	vertical-align: middle;
 	line-height: 65px;
-	background-color: black;
+	background-color: hsl(0, 0%, 3%);
 	
 }
 
@@ -96,7 +96,6 @@ footer{
   position: absolute;
   bottom: 0;
   left: 0;
-  right: 0;
   background-color: whitesmoke;
 }
 

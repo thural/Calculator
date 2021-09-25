@@ -1,4 +1,4 @@
-////////////////////////////NO FRAMEWORK AND NO ENUM FUNCTION means LOTS of CODE ///////////////////////
+//////////////////////////////////NO FRAMEWORK AND NO ENUM FUNCTION means LOTS of CODE ////////////////////////
 //global variables
 let oprContent = '', opr = '', num1 = [], num2 = [], preRender = [], calculated = 0, equalIsOn = false;
 //object to contain math functions
@@ -54,8 +54,11 @@ const calculate = function(operator) {
 };
 //function to insert selected number
 const insert = function(number) {
-    if (!opr && num1.length < 14) num1.push(number.textContent);
-        else if (num2.length < 14) num2.push(number.textContent);
+    if (!opr) {
+        if (num1.length < 13) num1.push(number.textContent);
+    } else {
+        if (num2.length < 13) num2.push(number.textContent)
+    };
     render2()
 };
 //Object to cotain functions for special buttons

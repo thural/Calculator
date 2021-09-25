@@ -10,7 +10,7 @@ body{
 	width: 300px;
 	margin: 8rem auto;
 	padding: 11px;
-	background-color: hsl(90, 100%,65%);
+	background-color: hsl(90, 80%,60%);
 	border-radius: 10px;
 	box-shadow: -30px 30px 15px hsla(0, 0%, 0%, 0.5);
 }
@@ -22,7 +22,7 @@ body{
 	grid-template: 30px 45px / 100%;
 	/*border: 1px solid black;*/
 	border-radius: 10px;
-	background-color: hsl(0, 0%, 3%);
+	background-color: black;
 }
 
 #temporal{
@@ -63,7 +63,7 @@ body{
 	text-align: center;
 	vertical-align: middle;
 	line-height: 65px;
-	background-color: hsl(0, 0%, 3%);
+	background-color: black;
 	
 }
 

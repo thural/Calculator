@@ -1,0 +1,15 @@
+{
+  "name": "calculator",
+  "version": "1.0.0",
+  "description": "refactoring functions using TDD",
+  "private": true,
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "thural",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/preset-env": "^7.18.10",
+    "jest": "^28.1.3"
+  }
+}

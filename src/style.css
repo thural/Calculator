@@ -2,6 +2,7 @@ body{
 	/*display: grid;
 	grid-template: 3fr 1fr/ 100%;
 	*/
+	font-size: 16px;
 	background-color: whitesmoke;
 }
 
@@ -10,7 +11,7 @@ body{
 	width: 300px;
 	margin: 8rem auto;
 	padding: 11px;
-	background-color: hsl(120, 75%,50%);
+	background-color: #fcd34d;
 	border-radius: 10px;
 	box-shadow: -30px 30px 15px hsla(0, 0%, 0%, 0.5);
 }
@@ -108,7 +109,9 @@ footer h3 {
 	line-height: 48px;
 }
 
-img{
+social img{
+	height: 2rem;
+	width: 2rem;
 	background: transparent;
 	margin: 6px;
 }

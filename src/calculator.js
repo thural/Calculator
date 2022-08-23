@@ -1,6 +1,7 @@
-let num1 = [], num2 = [], operator = undefined, previous = undefined;
+let num1 = [], num2 = [], operator = undefined, clear = true, previous = undefined;
 
 const calculator = (input) => {
+  previous = undefined;
 
   const operators = {
     'add': (a, b) => a + b,
@@ -17,16 +18,21 @@ const calculator = (input) => {
       target.push('.')
     },
     'backspace': function () {
-      const target = num2.length ? num2 : operator ? operator : num1;
-      if(target == operator) operator = undefined
+      const target = num2.length ? num2 :
+        operator ? operator :
+          clear ? num1 : null;
+      if (target == null) return;
+      if (target == operator) operator = undefined
       else target.pop()
     },
     'equals': function () {
       calculate(operator);
-      operator = undefined
+      operator = undefined;
+      clear = true
     },
     'clear': function () {
       num1 = [], num2 = [], operator = undefined;
+      clear = true
     }
   };
 
@@ -41,22 +47,23 @@ const calculator = (input) => {
 
   const calculate = (input) => {
     if (num2.length) {
-      previous = {num1, operator, num2};
+      clear = false;
+      previous = { num1, operator, num2 };
       const a = Number(num1.join(''));
       const b = Number(num2.join(''));
       const result = operators[operator](a, b);
       num1 = String(result).split('');
       num2 = [];
-    } else previous = undefined;
+    }
     if (num1.length) operator = input
-  }; 
+  };
 
   if (input in operators) calculate(input)
   else if (input in specials) operate(input)
   else insert(input);
 
-  let output = {num1, operator, num2, previous};
-  console.log(num1.join(''), operator, num2.join(''), 'previous: ', previous);
+  let output = { num1, operator, num2, clear, previous };
+  console.log(num1.join(''), operator, num2.join(''), 'clear: ', clear, 'previous: ', previous);
   return output
 }
 

@@ -17,14 +17,16 @@ const symbols = {
 const disp1 = document.querySelector('#current');
 const disp2 = document.querySelector('#temporal');
 
-
-
-
 //function to update content of selected display
 const render = (input, maxDigits, target) => {
-	const { num1, num2, operator, previous } = input;
+	const { num1, num2, operator, clear, previous } = input;
+	if (target == disp1 && clear) {
+		target.textContent = '';
+		return
+	};
 	if (target == disp1 && previous == undefined) return;
 	let arr;
+
 	// define array value for display output
 	if (target == disp1) {
 		if (target.textContent) arr = [symbols[previous.operator], ...previous.num2]
@@ -45,15 +47,13 @@ const render = (input, maxDigits, target) => {
 	}
 };
 
-
-
-
 //listener for mouse events
 const allBtns = document.querySelector('#buttons');
 allBtns.addEventListener('click', (event) => {
-	let selectedKey = event.target.id;
-	calculator(selectedKey);
-	render(disp2, 13)
+	const selectedKey = event.target.id;
+	const output = calculator(selectedKey);
+	render(output, 26, disp1);
+	render(output, 15, disp2)
 });
 
 //listener for keyboard events
@@ -61,9 +61,8 @@ document.addEventListener('keydown', (event) => {
 	const selectedKey = allBtns.querySelector(`div[data-key='${event.key}']`);
 
 	if (!selectedKey) return;
-	//console.log('selectedKey: ',selectedKey.id)
 	const input = selectedKey.id;
-	let output = calculator(input);
+	const output = calculator(input);
 	render(output, 26, disp1);
 	render(output, 15, disp2)
 });
@@ -78,5 +77,3 @@ linkedin.src = linkedinIcon;
 const twitter = document.querySelector('#twitter');
 const twitterIcon = twitterPng;
 twitter.src = twitterIcon;
-
-export { disp1, disp2 }

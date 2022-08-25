@@ -11,7 +11,7 @@ const calculator = (input) => {
     'divide': (a, b) => a / b,
     'modulus': (a, b) => a % b
   };
-  
+
   // functions for special key input
   const specials = {
     'dot': function () {
@@ -70,7 +70,6 @@ const calculator = (input) => {
 
   //output result, current state and previous operation
   let output = { num1, operator, num2, clear, previous };
-  //console.log(num1.join(''), operator, num2.join(''), 'clear: ', clear, 'previous: ', previous);
   return output
 }
 

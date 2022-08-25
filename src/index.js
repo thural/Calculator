@@ -1,4 +1,4 @@
-//////////////////////////////////NO FRAMEWORK AND NO ENUM FUNCTION means LOTS of CODE ////////////////////////
+//////////////////////////////// NO ENUM FUNCTION means LOTS of CODE ////////////////////////
 import './style.css';
 import calculator from './calculator';
 import githubPng from './images/github_icon.png';
@@ -13,38 +13,45 @@ const symbols = {
 	'modulus': '%'
 };
 
+// function to limit length of the array
+const limitArr = (arr, max) => {
+	while (arr.length > max) {
+		arr.shift()
+	}
+};
+
 // display areas
 const disp1 = document.querySelector('#current');
 const disp2 = document.querySelector('#temporal');
 
-//function to update content of selected display
-const render = (input, maxDigits, target) => {
-	const { num1, num2, operator, clear, previous } = input;
-	if (target == disp1 && clear) {
-		target.textContent = '';
+//function to render content of target display
+const render1 = (output) => {
+	const { clear, previous } = output;
+	//clear disp1 if state is clear
+	if (clear) {
+		disp1.textContent = '';
 		return
 	};
-	if (target == disp1 && previous == undefined) return;
+	// stop function if no calculation done on previous input
+	if (previous == undefined) return;
 	let arr;
-
 	// define array value for display output
-	if (target == disp1) {
-		if (target.textContent) arr = [symbols[previous.operator], ...previous.num2]
-		else arr = [...previous.num1, symbols[previous.operator], ...previous.num2]
-	} else arr = [...num1, symbols[operator], ...num2];
-
-	const limitArr = () => {
-		while (arr.length > maxDigits) {
-			arr.shift()
-		}
-	};
-
+	if (disp1.textContent) arr = [symbols[previous.operator], ...previous.num2]
+	else arr = [...previous.num1, symbols[previous.operator], ...previous.num2];
 	// output to the display
-	if (target == disp2) limitArr(), target.textContent = arr.join('')
-	else if (previous.num1.length && previous.num2.length) {
-		arr = target.textContent.split('').concat(arr);
-		limitArr(), target.textContent = arr.join('')
+	if (previous.num1.length && previous.num2.length) {
+		arr = disp1.textContent.split('').concat(arr);
+		limitArr(arr, 26), disp1.textContent = arr.join('')
 	}
+};
+
+//render function for disp2
+const render2 = (output) => {
+	const { num1, num2, operator } = output;
+	// define array value for display output
+	let arr = [...num1, symbols[operator], ...num2];
+	// output to the display
+	limitArr(arr, 13), disp2.textContent = arr.join('')
 };
 
 //listener for mouse events
@@ -52,8 +59,8 @@ const allBtns = document.querySelector('#buttons');
 allBtns.addEventListener('click', (event) => {
 	const selectedKey = event.target.id;
 	const output = calculator(selectedKey);
-	render(output, 26, disp1);
-	render(output, 15, disp2)
+	render1(output);
+	render2(output)
 });
 
 //listener for keyboard events
@@ -63,8 +70,8 @@ document.addEventListener('keydown', (event) => {
 	if (!selectedKey) return;
 	const input = selectedKey.id;
 	const output = calculator(input);
-	render(output, 26, disp1);
-	render(output, 15, disp2)
+	render1(output);
+	render2(output)
 });
 
 //attaching icons

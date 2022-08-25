@@ -3,6 +3,7 @@ let num1 = [], num2 = [], operator = undefined, clear = true, previous = undefin
 const calculator = (input) => {
   previous = undefined;
 
+  // functions for operators
   const operators = {
     'add': (a, b) => a + b,
     'subtract': (a, b) => a - b,
@@ -10,7 +11,8 @@ const calculator = (input) => {
     'divide': (a, b) => a / b,
     'modulus': (a, b) => a % b
   };
-
+  
+  // functions for special key input
   const specials = {
     'dot': function () {
       const target = operator ? num2 : num1;
@@ -36,15 +38,18 @@ const calculator = (input) => {
     }
   };
 
+  //insert number to target operand
   const insert = (num) => {
     const target = operator ? num2 : num1;
     target.push(num)
   };
 
+  // perform special functions
   const operate = (input) => {
     specials[input]()
   };
 
+  // perform calcualtion if all elements are present
   const calculate = (input) => {
     if (num2.length) {
       clear = false;
@@ -53,17 +58,19 @@ const calculator = (input) => {
       const b = Number(num2.join(''));
       const result = operators[operator](a, b);
       num1 = String(result).split('');
-      num2 = [];
-    }
+      num2 = []
+    };
     if (num1.length) operator = input
   };
 
+  //main logic
   if (input in operators) calculate(input)
   else if (input in specials) operate(input)
   else insert(input);
 
+  //output result, current state and previous operation
   let output = { num1, operator, num2, clear, previous };
-  console.log(num1.join(''), operator, num2.join(''), 'clear: ', clear, 'previous: ', previous);
+  //console.log(num1.join(''), operator, num2.join(''), 'clear: ', clear, 'previous: ', previous);
   return output
 }
 

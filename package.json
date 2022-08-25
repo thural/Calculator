@@ -1,7 +1,7 @@
 {
   "name": "calculator",
   "version": "1.0.0",
-  "description": "refactoring functions using TDD",
+  "description": "a simple calculator web app",
   "private": true,
   "scripts": {
     "test": "jest",

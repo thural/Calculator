@@ -24,7 +24,7 @@ const limitArr = (arr, max) => {
 const disp1 = document.querySelector('#current');
 const disp2 = document.querySelector('#temporal');
 
-//function to render content of target display
+//render function for disp1
 const render1 = (output) => {
 	const { clear, previous } = output;
 	//clear disp1 if state is clear

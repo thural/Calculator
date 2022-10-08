@@ -57,6 +57,7 @@ const calculate = (input) => {
     num1 = String(result).split('');
     num2 = []
   };
+  if (num1[num1.length - 1] == '.') return;
   if (num1.length) operator = input
 };
 

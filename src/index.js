@@ -58,6 +58,7 @@ const render2 = (output) => {
 const allBtns = document.querySelector('#buttons');
 allBtns.addEventListener('click', (event) => {
 	const selectedKey = event.target.id;
+	if(selectedKey == 'buttons') return;
 	const output = calculator(selectedKey);
 	render1(output);
 	render2(output)
